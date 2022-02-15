@@ -55,6 +55,14 @@
 #include <QtMqtt/QMqttClient>
 #include <QtWidgets/QMessageBox>
 
+#include <QVariantList>
+#include <QJsonArray>
+#include <QJsonDocument>
+#include <QJsonObject>
+#include <QJsonParseError>
+#include <QJsonValue>
+#include <QString>
+
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -140,9 +148,31 @@ void MainWindow::on_btn_Subcribe_clicked()
     }
 }
 
+#include <QByteArray>
 void MainWindow::updateMessage(const QMqttMessage &msg)
 {
-    ui->label_payload->setText(msg.payload());
+    QString payload = msg.payload();
+    ui->label_payload->setText(payload);
+    QJsonParseError *error=new QJsonParseError;
+    QJsonDocument jsonDoc = QJsonDocument::fromJson(payload.toUtf8());
+    //判断文件是否完整
+    if(error->error!=QJsonParseError::NoError)
+    {
+        qDebug()<<"parseJson:"<<error->errorString();
+        return ;
+    }
+    QJsonObject obj = jsonDoc.object();        //获取对象
+    qDebug() <<"object size:"<<obj.size();
+
+    qDebug() << obj["temp"].toDouble() <<endl;
+    qDebug() << obj["dist"].toDouble() <<endl;
+
+    double temp = obj["temp"].toDouble();
+    double dist =  obj["dist"].toDouble();
+
+    ui->label_temp->setText(QString::number(temp));
+    ui->label_dist->setText(QString::number(dist));
+    delete error;
 }
 
 void MainWindow::updateStatus(QMqttSubscription::SubscriptionState state)
