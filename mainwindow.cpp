@@ -89,16 +89,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
 
 
-    setClientPort(port);
-    m_client->setHostname(hostname);
-    m_client->setUsername(username);
-    m_client->setPassword(password);
-    m_client->setClientId(clientid);
-    //    m_client->setAutoKeepAlive(true);
-    //    m_client->keepAlive();
-    m_client->connectToHost();
-    //quint8 QoS = 0;
-    updateLogStateChange();
+    mqtt_connect();
 }
 
 MainWindow::~MainWindow()
@@ -173,5 +164,25 @@ void MainWindow::updateStatus(QMqttSubscription::SubscriptionState state)
         ui->label_subscribr_status->setText(QLatin1String("--Unknown--"));
         break;
     }
+}
+
+void MainWindow::mqtt_connect()
+{
+    setClientPort(port);
+    m_client->setHostname(hostname);
+    m_client->setUsername(username);
+    m_client->setPassword(password);
+    m_client->setClientId(clientid);
+    //    m_client->setAutoKeepAlive(true);
+    //    m_client->keepAlive();
+    m_client->connectToHost();
+    //quint8 QoS = 0;
+    updateLogStateChange();
+}
+
+
+void MainWindow::on_btn_reconnect_clicked()
+{
+    mqtt_connect();
 }
 

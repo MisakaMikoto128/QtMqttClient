@@ -44,6 +44,13 @@
        </widget>
       </item>
       <item>
+       <widget class="QCommandLinkButton" name="btn_reconnect">
+        <property name="text">
+         <string>ReConnect</string>
+        </property>
+       </widget>
+      </item>
+      <item>
        <layout class="QHBoxLayout" name="horizontalLayout_2">
         <item>
          <widget class="QLabel" name="label_QoSTitle">

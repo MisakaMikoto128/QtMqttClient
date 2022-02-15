@@ -29,6 +29,8 @@ private slots:
 
     void on_btn_Subcribe_clicked();
 
+    void on_btn_reconnect_clicked();
+
 public slots:
     void updateMessage(const QMqttMessage &msg);
     void updateStatus(QMqttSubscription::SubscriptionState state);
@@ -42,13 +44,15 @@ private:
     /*
         MQTT三元组，注意阿里云的话需要指定的ClientID
     */
-    QString hostname = "xxxxx.xxxx.aliyuncs.com";
-    QString username = "xxxx&xxxx";
-    QString password = "xxxxx";
-    QString clientid = "xxxx|securemode=x,signmethod=xxx,timestamp=xxx|";
+    QString hostname = "a1SHqmHCWLz.iot-as-mqtt.cn-shanghai.aliyuncs.com";
+    QString username = "qt_clinet&a1SHqmHCWLz";
+    QString password = "7438f5d42cea016b4224596a37323b72316e96ee";
+    QString clientid = "FESA234FBDS24AA|securemode=3,signmethod=hmacsha1,timestamp=789|";
     int port = 1883;
     qint8 QoS = 0;
-    QString default_topic = "/xxxx/xxxxx/";
+    QString default_topic = "/a1SHqmHCWLz/qt_clinet/user/get";
+
+    void mqtt_connect();
 
 };
 #endif // MAINWINDOW_H
