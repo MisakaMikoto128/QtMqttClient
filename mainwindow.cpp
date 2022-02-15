@@ -62,7 +62,7 @@
 #include <QJsonParseError>
 #include <QJsonValue>
 #include <QString>
-
+#include <QTimer>
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
@@ -95,9 +95,10 @@ MainWindow::MainWindow(QWidget *parent) :
         ui->label_MqttState->setText(tr("MQTT 服务连接成功！"));
     });
 
-
-
     mqtt_connect();
+
+    //延时2000ms开始订阅，连接到订阅间隔时间不够无法成功订阅
+    QTimer::singleShot(2000,this,SLOT(on_btn_Subcribe_clicked()));
 }
 
 MainWindow::~MainWindow()
